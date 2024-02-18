@@ -10,11 +10,20 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 func main() {
 	var wg sync.WaitGroup
 	var err error
+	
+	dsn := "host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai"
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		log.Fatalf("Error connecting to the database: %s", err)
+	}
+
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
