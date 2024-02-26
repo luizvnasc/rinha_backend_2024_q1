@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"rinha_backend2024_q1/internal/transacao"
 	"sync"
 	"syscall"
 	"time"
@@ -17,15 +18,16 @@ import (
 func main() {
 	var wg sync.WaitGroup
 	var err error
-	
-	dsn := "host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai"
+
+	dsn := "host=localhost user=admin password=123 dbname=rinha port=5432 sslmode=disable TimeZone=Europe/Lisbon"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Error connecting to the database: %s", err)
 	}
+	transacao.NewStore(db)
 
 	app := fiber.New()
-
+	transacao.RegistraHandlers(app)
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})

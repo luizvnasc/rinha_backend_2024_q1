@@ -1,0 +1,13 @@
+
+@baseURL = localhost:3000
+@clientID = 1
+
+###
+POST {{baseURL}}/clientes/{{clientID}}/transacoes
+Content-Type: application/json
+
+{
+    "valor": 100,
+    "tipo": "c",
+    "descricao":"teste"
+}
