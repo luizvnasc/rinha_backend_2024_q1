@@ -5,10 +5,10 @@ CREATE OR REPLACE FUNCTION criatransacao(
   IN descricao varchar(10)
 ) RETURNS RECORD AS $$
 DECLARE
-  clienteencontrado clientes%rowtype;
+  clienteencontrado cliente%rowtype;
   ret RECORD;
 BEGIN
-  SELECT * FROM clientes
+  SELECT * FROM cliente
   INTO clienteencontrado
   WHERE id = idcliente;
 
@@ -29,13 +29,13 @@ BEGIN
         RETURN ret;
       END IF;
     WHEN tipo = 'c' THEN
-      UPDATE clientes
+      UPDATE cliente
         SET saldo = saldo + valor
         WHERE id = idcliente
         RETURNING saldo, limite
         INTO ret;
   END CASE;
-  INSERT INTO transacaos (tipo, valor, descricao, cliente_id)
+  INSERT INTO transacao (tipo, valor, descricao, cliente_id)
     VALUES (tipo, valor, descricao, idcliente);
   RETURN ret;
 END;$$ LANGUAGE plpgsql;

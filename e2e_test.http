@@ -11,3 +11,8 @@ Content-Type: application/json
     "tipo": "c",
     "descricao":"teste"
 }
+
+
+###
+GET {{baseURL}}/clientes/{{clientID}}/extrato
+

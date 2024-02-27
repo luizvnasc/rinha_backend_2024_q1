@@ -1,26 +1,27 @@
+DROP TABLE IF EXISTS cliente;
+DROP TABLE IF EXISTS transacao;
 
-DROP TABLE IF EXISTS transacaos;
-DROP TABLE IF EXISTS clientes;
-
-
-CREATE TABLE transacaos (
+CREATE TABLE cliente (
     id SERIAL PRIMARY KEY,
-    cliente_id BIGINT NOT NULL,
+    limite BIGINT NOT NULL,
+    saldo INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE transacao (
+    id SERIAL PRIMARY KEY,
+    cliente_id INTEGER NOT NULL,
     valor BIGINT NOT NULL,
     tipo CHAR(1) NOT NULL,
     descricao VARCHAR(128) NOT NULL,
-    criado_em TIMESTAMP NOT NULL DEFAULT now()
+    criado_em TIMESTAMP NOT NULL DEFAULT now(),
+    CONSTRAINT fk_cliente_transacao FOREIGN KEY(cliente_id) REFERENCES cliente(id)
 );
 
-CREATE TABLE clientes (
-    id SERIAL PRIMARY KEY,
-    limite BIGINT NOT NULL,
-    saldo BIGINT NOT NULL DEFAULT 0
-);
+
 
 DO $$
 BEGIN
-  INSERT INTO clientes (limite)
+  INSERT INTO cliente (limite)
   VALUES
     (100000),
     (80000),

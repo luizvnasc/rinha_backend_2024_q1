@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"rinha_backend2024_q1/internal/extrato"
 	"rinha_backend2024_q1/internal/transacao"
 	"sync"
 	"syscall"
@@ -13,6 +14,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 )
 
 func main() {
@@ -20,14 +22,21 @@ func main() {
 	var err error
 
 	dsn := "host=localhost user=admin password=123 dbname=rinha port=5432 sslmode=disable TimeZone=Europe/Lisbon"
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true,
+		},
+	})
 	if err != nil {
 		log.Fatalf("Error connecting to the database: %s", err)
 	}
 	transacao.NewStore(db)
+	extrato.NewStore(db)
 
 	app := fiber.New()
 	transacao.RegistraHandlers(app)
+	extrato.RegistraHandlers(app)
+
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})
