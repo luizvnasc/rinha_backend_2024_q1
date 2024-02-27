@@ -11,6 +11,7 @@ services:
       - "5432:5432"
     volumes:
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./sql/procedures.sql:/docker-entrypoint-initdb.d/procedures.sql
     deploy:
       resources:
         limits:
