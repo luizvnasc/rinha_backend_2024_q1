@@ -1,6 +1,6 @@
 version: "3.5"
 services:
-   db:
+  db:
     image: postgres:latest
     hostname: db
     environment:
@@ -17,3 +17,38 @@ services:
         limits:
           cpus: "0.13"
           memory: "140MB"
+  api1:
+    image: luizvnasc/rinha_backend_2024_q1
+    hostname: ap1
+    environment:
+      - PORT=3000
+      - POSTGRES_DSN=host=db user=admin password=123 dbname=rinha port=5432 sslmode=disable TimeZone=Europe/Lisbon
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    deploy:
+      resources:
+        limits:
+          cpus: "0.6"
+          memory: "200MB"
+  api2:
+    image: luizvnasc/rinha_backend_2024_q1
+    hostname: ap2
+    environment:
+      - PORT=3001
+      - POSTGRES_DSN=host=db user=admin password=123 dbname=rinha port=5432 sslmode=disable TimeZone=Europe/Lisbon
+    ports:
+      - 3001:3001
+    depends_on:
+      - db
+    deploy:
+      resources:
+        limits:
+          cpus: "0.6"
+          memory: "200MB"
+
+networks:
+  default:
+    driver: bridge
+    name: rinha-backend-2024q1

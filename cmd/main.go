@@ -21,7 +21,8 @@ func main() {
 	var wg sync.WaitGroup
 	var err error
 
-	dsn := "host=localhost user=admin password=123 dbname=rinha port=5432 sslmode=disable TimeZone=Europe/Lisbon"
+	dsn := os.Getenv("POSTGRES_DSN")
+	port := os.Getenv("PORT")
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true,
@@ -68,7 +69,7 @@ func main() {
 
 	log.Println("Starting the server")
 
-	if err = app.Listen(":3000"); err != nil {
+	if err = app.Listen(":" + port); err != nil {
 		log.Fatalf("Error starting the server: %s", err)
 	}
 	log.Println("Stopping the server")
