@@ -1,3 +1,4 @@
+
 DROP TABLE IF EXISTS transacaos;
 DROP TABLE IF EXISTS clientes;
 
