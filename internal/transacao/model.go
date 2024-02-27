@@ -13,5 +13,5 @@ type Transacao struct {
 	Descricao string    `gorm:"descricao" json:"descricao"`
 	Tipo      string    `gorm:"tipo" json:"tipo"`
 	Valor     uint64    `gorm:"valor" json:"valor"`
-	CreatedAt time.Time `json:"criado_em"`
+	CriadoEm  time.Time `gorm:"criado_em" json:"criado_em"`
 }

@@ -1,7 +1,6 @@
 package transacao
 
 import (
-	"log"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -12,7 +11,6 @@ func RegistraHandlers(app *fiber.App) {
 }
 
 func criaTransacao(ctx *fiber.Ctx) error {
-	log.Println("opa")
 	clienteID := ctx.Params("id")
 	transacao := new(Transacao)
 
@@ -24,6 +22,8 @@ func criaTransacao(ctx *fiber.Ctx) error {
 		return ctx.SendStatus(500)
 	}
 	transacao.ClienteID = uint(id)
-	store.CriaTransacao(transacao)
+	if err = store.CriaTransacao(transacao); err != nil {
+		return ctx.SendStatus(404)
+	}
 	return ctx.SendStatus(200)
 }

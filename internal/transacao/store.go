@@ -20,10 +20,10 @@ func GetStore() Store {
 	return store
 }
 
-func (s Store) CriaTransacao(transacao *Transacao) (*Transacao, error) {
-	result := s.db.Create(transacao)
-	if result.Error != nil {
-		return nil, fmt.Errorf("ewrro criando a transacao no banco de dados: %s", result.Error)
+func (s Store) CriaTransacao(transacao *Transacao) (err error) {
+	result := s.db.Raw("SELECT \"criatransacao\"(?,?,?,?)", transacao.ClienteID, transacao.Tipo, transacao.Valor, transacao.Descricao).Row()
+	if result.Err() != nil {
+		err = fmt.Errorf("erro criando a transacao no banco de dados: %s", result.Err().Error())
 	}
-	return transacao, nil
+	return
 }
