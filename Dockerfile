@@ -11,15 +11,18 @@ ENV goos=linux
 #build the binary with debug information removed
 RUN go build -C /src/cmd -ldflags '-w -s' -a -installsuffix cgo -o /bin/rinha  
 
-RUN ls /bin
 
-FROM scratch
+FROM alpine:latest
 
 ENV PORT=3000
-ENV POSTGRES_DNS=
+ENV POSTGRES_DNS=""
 
-COPY --from=build /bin/rinha /
+RUN apk add libc6-compat
+
+COPY --from=build /bin/rinha /bin/rinha
+
+RUN ls /bin
 
 EXPOSE ${PORT}
 
-ENTRYPOINT [ "rinha" ] 
+CMD [ "/bin/rinha" ] 

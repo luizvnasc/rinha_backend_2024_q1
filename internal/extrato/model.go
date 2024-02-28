@@ -12,6 +12,6 @@ type Saldo struct {
 }
 
 type Extrato struct {
-	Saldo             Saldo
-	UltimasTransacoes []transacao.Transacao
+	Saldo             Saldo                 `json:"saldo"`
+	UltimasTransacoes []transacao.Transacao `json:"ultimas_transacoes"`
 }

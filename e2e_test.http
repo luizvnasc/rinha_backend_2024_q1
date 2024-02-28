@@ -16,3 +16,7 @@ Content-Type: application/json
 ###
 GET {{baseURL}}/clientes/{{clientID}}/extrato
 
+
+###
+
+GET localhost:9999

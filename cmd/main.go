@@ -38,10 +38,6 @@ func main() {
 	transacao.RegistraHandlers(app)
 	extrato.RegistraHandlers(app)
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
-	})
-
 	shutdownError := make(chan error)
 
 	go func() {
