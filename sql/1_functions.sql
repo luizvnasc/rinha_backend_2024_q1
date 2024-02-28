@@ -19,9 +19,9 @@ BEGIN
 
   CASE 
     WHEN tipo = 'd' THEN
-      UPDATE clientes
+      UPDATE cliente
         SET saldo = saldo - valor
-        WHERE id = idcliente AND (valor > 0 OR saldo - valor >= limite)
+        WHERE id = idcliente AND (valor > 0 OR ABS(saldo - valor) >= limite)
         RETURNING saldo, limite
         INTO ret;
       IF ret.limite is NULL THEN
@@ -34,6 +34,9 @@ BEGIN
         WHERE id = idcliente
         RETURNING saldo, limite
         INTO ret;
+    ELSE
+      SELECT -1 INTO ret;
+      RETURN ret;
   END CASE;
   INSERT INTO transacao (tipo, valor, descricao, cliente_id)
     VALUES (tipo, valor, descricao, idcliente);

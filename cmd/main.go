@@ -31,6 +31,17 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error connecting to the database: %s", err)
 	}
+
+	sqlDB, err := db.DB()
+	if err != nil {
+		log.Fatalf("Error connecting to the database: %s", err)
+	}
+	defer sqlDB.Close()
+
+	sqlDB.SetMaxIdleConns(10)
+	sqlDB.SetMaxOpenConns(150)
+	sqlDB.SetConnMaxLifetime(time.Hour)
+
 	transacao.NewStore(db)
 	extrato.NewStore(db)
 

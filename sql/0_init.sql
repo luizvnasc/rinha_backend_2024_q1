@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS cliente;
 DROP TABLE IF EXISTS transacao;
 
+
 CREATE TABLE cliente (
     id SERIAL PRIMARY KEY,
     limite BIGINT NOT NULL,

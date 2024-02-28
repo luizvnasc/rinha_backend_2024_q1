@@ -1,5 +1,5 @@
 
-@baseURL = localhost:3000
+@baseURL = localhost:9999
 @clientID = 1
 
 ###
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
     "valor": 100,
-    "tipo": "c",
+    "tipo": "d",
     "descricao":"teste"
 }
 
